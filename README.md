@@ -13,6 +13,7 @@ Hackathon-kit
 <clone our app to a local git repository>
 $ sudo pip install -r requirements.txt
 $ heroku apps:create hackathon-demo 
+$ heroku config:set IS_HEROKU_SERVER=1
 $ git push heroku master
 ```
 
