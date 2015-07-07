@@ -1,17 +1,9 @@
 {
-  "scripts": {
-    "postdeploy": "python manage.py migrate"
-  },
   "env": {
     "IS_HEROKU_SERVER": "1",
     "WEB_CONCURRENCY": "1"
   },
   "addons": [
     "papertrail"
-  ],
-  "buildpacks": [
-    {
-      "url": "https://github.com/stomita/heroku-buildpack-phantomjs"
-    }
   ]
 }
