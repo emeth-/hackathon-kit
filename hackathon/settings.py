@@ -56,22 +56,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'hackathon.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
 WSGI_APPLICATION = 'hackathon.wsgi.application'
 
 
@@ -84,12 +68,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-if os.environ.get('IS_HEROKU_SERVER', False): # $ heroku config:add IS_HEROKU_SERVER='1'
-    import dj_database_url
-    DATABASES = {
-        "default": dj_database_url.config()
-    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -108,4 +86,18 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, '../static'),
+)
+
+
+if os.environ.get('IS_HEROKU_SERVER', False): # $ heroku config:add IS_HEROKU_SERVER='1'
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config()
+    }
+    STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

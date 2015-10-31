@@ -13,6 +13,12 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hackathon.settings")
 
-from dj_static import Cling
 
-application = Cling(get_wsgi_application())
+application = get_wsgi_application()
+
+if os.environ.get('IS_HEROKU_SERVER', False): # $ heroku config:add IS_HEROKU_SERVER='1'
+    from whitenoise.django import DjangoWhiteNoise
+    application = DjangoWhiteNoise(application)
+else:
+    from dj_static import Cling
+    application = Cling(application)

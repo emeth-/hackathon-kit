@@ -33,6 +33,7 @@ $ python manage.py migrate
 ##### Run Server
 ```
 $ python manage.py runserver
+Visit http://127.0.0.1:8000/static/index.html
 ```
 
 ##### Admin Panel
