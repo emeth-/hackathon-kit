@@ -2,6 +2,7 @@ from django.http import HttpResponse
 import datetime
 import json
 from api.models import Fish
+from django.http import HttpResponseRedirect
 
 def json_custom_parser(obj):
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
@@ -48,3 +49,8 @@ def get_fish(request):
         "status": "success",
         "data": list(fishies.values())
     }, default=json_custom_parser), content_type='application/json', status=200)
+    
+    
+def load_frontend(request):
+    return HttpResponseRedirect("/static/index.html")
+
