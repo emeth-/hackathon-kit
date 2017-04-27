@@ -3,6 +3,7 @@ import datetime
 import json
 from api.models import Fish
 from django.http import HttpResponseRedirect
+from django.template.response import TemplateResponse
 
 def json_custom_parser(obj):
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
