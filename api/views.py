@@ -54,3 +54,8 @@ def get_fish(request):
 def load_frontend(request):
     return HttpResponseRedirect("/static/index.html")
 
+def load_widget(request):
+    return TemplateResponse(request, 'load_widget.html', context={
+        "users": []
+    })
+
