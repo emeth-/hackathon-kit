@@ -5,7 +5,5 @@ urlpatterns = patterns('',
     url(r'^delete_fish$', "api.views.delete_fish"),
     url(r'^get_fish$', "api.views.get_fish"),
     url(r'^get_datatable_data$', "api.views.get_datatable_data"),
-    url(r'^dtables_example$', "api.views.dtables_example"),
-    url(r'^load_widget$', "api.views.load_widget"),
-    url(r'^$', "api.views.load_frontend")
+    url(r'^$', "api.views.dtables_example")
 )
