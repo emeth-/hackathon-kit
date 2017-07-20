@@ -14,6 +14,7 @@
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="/static/css/magicsuggest-min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <style type="text/css">
@@ -40,6 +41,7 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/magicsuggest-min.js"></script>
     <script>
 
 function format ( rowData ) {
@@ -66,7 +68,7 @@ function format ( rowData ) {
 }
 
 $(document).ready(function() {
-	var table = $('#myTable').DataTable( {
+	var dtable = $('#myTable').DataTable( {
 		"columns": [
 			{
 				"className":      'details-control',
@@ -116,7 +118,7 @@ $(document).ready(function() {
             url: '/get_datatable_data',
             type: 'GET',
             "data": function(d) {
-                d.moredata = 1;
+              d.person_filter = person_filter;
             }
         },
         pageLength: 10,
@@ -125,7 +127,7 @@ $(document).ready(function() {
 	// Add event listener for opening and closing details
 	$('#myTable tbody').on('click', 'td.details-control', function () {
 		var tr = $(this).closest('tr');
-		var row = table.row( tr );
+		var row = dtable.row( tr );
 
 		if ( row.child.isShown() ) {
 			// This row is already open - close it
@@ -138,7 +140,32 @@ $(document).ready(function() {
 			tr.addClass('shown');
 		}
 	} );
+
+
+  this.person_magic = $('#person_magic').magicSuggest({
+      allowFreeEntries: false,
+      expandOnFocus: true,
+      useTabKey: true,
+      valueField: 'id',
+      displayField: 'name',
+      maxSelection: 1,
+      data: function (query) {
+          return '/autocomplete/person/?query=' + encodeURIComponent(query);
+      },
+  });
+
+
+  $(this.person_magic).on('selectionchange', function (event, ms) {
+      var selected_value_list = this.getValue();
+      person_filter = selected_value_list[0];
+      dtable.draw();
+  });
+
 } );
+
+var person_filter;
+var dtable;
+
     </script>
   </head>
 
@@ -175,10 +202,23 @@ $(document).ready(function() {
         <h1>Hello, world!</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+
+
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label for="person_magic" class="col-sm-4">Person Filter</label>
+                <div class="col-sm-7">
+                    <div id="person_magic"></div>
+                    <input type="text" class="form-control input-sm input-sm" id="person_id" value="" style="display:none">
+                </div>
+            </div>
+        </div>
       </div>
+
     </div>
 
     <div class="container">
+
 
 <table id="myTable" class="display" width="100%">
     <thead>

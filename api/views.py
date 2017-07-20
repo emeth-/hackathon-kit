@@ -62,10 +62,8 @@ def get_datatable_data(request):
 
     c_data = Person.objects.all().order_by(sort_by, 'id')
     recordsTotal = c_data.count()
-    if request.GET.get('columns[0][search][value]'):
-        c_data = c_data.filter(name__icontains=request.GET['columns[0][search][value]'])
-    if request.GET.get('columns[1][search][value]'):
-        c_data = c_data.filter(position__icontains=request.GET['columns[1][search][value]'])
+    if request.GET.get('person_filter'):
+        c_data = c_data.filter(name__icontains=request.GET['person_filter'])
     recordsFiltered = c_data.count()
 
     return HttpResponse(json.dumps({
@@ -80,3 +78,17 @@ def dtables_example(request):
     return TemplateResponse(request, 'datatables.html', context={
         "users": []
     })
+
+
+def autocomplete(request, obj):
+    data = []
+    if obj == "person":
+        for l in Person.objects.filter(name__icontains=request.POST['query']).order_by('name'):
+            data.append({
+                "id": l.name,# l.id,
+                "name": l.name
+            })
+
+    #elif...
+
+    return HttpResponse(json.dumps(data, default=json_custom_parser), content_type='application/json', status=200)
