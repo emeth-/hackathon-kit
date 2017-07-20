@@ -82,9 +82,30 @@ $(document).ready(function() {
                 },
                 title: 'Name'
             },
-			{ "data": "position" },
-			{ "data": "office" },
-			{ "data": "salary" }
+            {
+                data: 'position',
+                name: 'position',
+                render: function (a, b, obj, d) {
+                    return obj.position;
+                },
+                title: 'Position'
+            },
+            {
+                data: 'office',
+                name: 'office',
+                render: function (a, b, obj, d) {
+                    return obj.office;
+                },
+                title: 'Office'
+            },
+            {
+                data: 'salary',
+                name: 'salary',
+                render: function (a, b, obj, d) {
+                    return obj.salary;
+                },
+                title: 'Salary'
+            },
 		],
 		"order": [[1, 'asc']],
         serverSide: true,

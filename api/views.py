@@ -545,6 +545,11 @@ def load_fake_data():
 def load_frontend(request):
     return HttpResponseRedirect("/static/index.html")
 
+def dtables_example(request):
+    return TemplateResponse(request, 'datatables.html', context={
+        "users": []
+    })
+
 def load_widget(request):
     return TemplateResponse(request, 'load_widget.html', context={
         "users": []
