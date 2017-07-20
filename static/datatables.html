@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+      body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+      }
+
+      td.details-control {
+          background: url('/static/images/details_open.png') no-repeat center center;
+          cursor: pointer;
+      }
+
+      tr.shown td.details-control {
+          background: url('/static/images/details_close.png') no-repeat center center;
+      }
+
+      tr.loading td {
+          text-align: center;
+      }
+
+    </style>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script>
+
+function format ( rowData ) {
+	var div = $('<div/>')
+		.addClass( 'loading' )
+		.text( 'Loading...' );
+
+	//$.ajax( {
+	//	url: '/media/blog/2017-03-31/details.php',
+	//	data: {
+	//		name: rowData.name
+	//	},
+	//	dataType: 'json',
+	//	type: 'post',
+	//	success: function ( json ) {
+	//		div
+	//			.html( json.html )
+	//			.removeClass( 'loading' );
+	//	}
+	//} );
+    div.html("Profile details here").removeClass( 'loading' );
+
+	return div;
+}
+
+$(document).ready(function() {
+	var table = $('#myTable').DataTable( {
+		"columns": [
+			{
+				"className":      'details-control',
+				"orderable":      false,
+				"data":           null,
+				"defaultContent": ''
+			},
+            {
+                data: 'name',
+                name: 'name',
+                render: function (a, b, obj, d) {
+                    return obj.name;
+                },
+                title: 'Name'
+            },
+			{ "data": "position" },
+			{ "data": "office" },
+			{ "data": "salary" }
+		],
+		"order": [[1, 'asc']],
+        serverSide: true,
+        lengthChange: false,
+        processing: true,
+        dom: 't<"bottom"ip>',
+        ajax: {
+            url: '/get_datatable_data',
+            type: 'GET',
+            "data": function(d) {
+                d.moredata = 1;
+            }
+        },
+        pageLength: 10,
+	} );
+
+	// Add event listener for opening and closing details
+	$('#myTable tbody').on('click', 'td.details-control', function () {
+		var tr = $(this).closest('tr');
+		var row = table.row( tr );
+
+		if ( row.child.isShown() ) {
+			// This row is already open - close it
+			row.child.hide();
+			tr.removeClass('shown');
+		}
+		else {
+			// Open this row
+			row.child( format(row.data()) ).show();
+			tr.addClass('shown');
+		}
+	} );
+} );
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+
+<table id="myTable" class="display" width="100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Salary</th>
+        </tr>
+    </tfoot>
+</table>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+  </body>
+</html>
