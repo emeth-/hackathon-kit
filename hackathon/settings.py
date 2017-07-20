@@ -93,6 +93,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, '../static'),
 )
 
+TEMPLATE_DEBUG = True
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
 
 if os.environ.get('IS_HEROKU_SERVER', False): # $ heroku config:add IS_HEROKU_SERVER='1'
     import dj_database_url

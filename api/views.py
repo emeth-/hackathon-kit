@@ -3,6 +3,7 @@ import datetime
 import json
 from api.models import Fish, Person
 from django.http import HttpResponseRedirect
+from django.template.response import TemplateResponse
 
 def json_custom_parser(obj):
     if isinstance(obj, datetime.datetime) or isinstance(obj, datetime.date):
@@ -543,3 +544,9 @@ def load_fake_data():
 
 def load_frontend(request):
     return HttpResponseRedirect("/static/index.html")
+
+def load_widget(request):
+    return TemplateResponse(request, 'load_widget.html', context={
+        "users": []
+    })
+
