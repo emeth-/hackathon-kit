@@ -79,6 +79,11 @@ def dtables_example(request):
         "users": []
     })
 
+def faq(request):
+    return TemplateResponse(request, 'faq.html', context={
+        "users": []
+    })
+
 
 def autocomplete(request, obj):
     data = []

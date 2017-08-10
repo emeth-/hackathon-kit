@@ -1,0 +1,93 @@
+{% extends "master.html" %}
+{% block faq %} class='active'{% endblock %}
+
+{% block additional_header %}
+    <style type="text/css">
+      body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+      }
+
+    </style>
+
+    <script>
+
+
+$(document).ready(function() {
+
+
+} );
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1 style="text-align:center">Frequently Asked Questions</h1>
+<hr>
+
+      <div class="container">
+
+
+<script>
+function toggle_faq(t) {
+  var target = jQuery(t).find(".glyphicon");
+  if (target.hasClass('glyphicon-chevron-right')) {
+    target.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+  }
+  else {
+    target.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+  }
+}
+</script>
+
+
+
+<div class="panel panel-default">
+  <div class="panel-heading accordion-toggle question-toggle collapsed" data-target="#q-this-is-my-q1" data-toggle="collapse" style="cursor: pointer;" onclick="toggle_faq(this)">
+    <h3 class="panel-title" style="font-size:24px !important;">
+	  <span class="glyphicon glyphicon-chevron-right"></span>
+	  This is my question 1
+	</h3>
+  </div>
+  <div id="q-this-is-my-q1" class="panel-collapse collapse" style="height: 0px;">
+    <div class="panel-body">
+      Answer 1
+    </div>
+  </div>
+</div>
+
+
+<div class="panel panel-default">
+  <div class="panel-heading accordion-toggle question-toggle collapsed" data-target="#q-this-is-my-q2" data-toggle="collapse" style="cursor: pointer;" onclick="toggle_faq(this)">
+    <h3 class="panel-title" style="font-size:24px !important;">
+	  <span class="glyphicon glyphicon-chevron-right"></span>
+	  This is my question 2
+	</h3>
+  </div>
+  <div id="q-this-is-my-q2" class="panel-collapse collapse" style="height: 0px;">
+    <div class="panel-body">
+      Answer 2
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+      </div>
+
+
+
+
+      <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+    </div> <!-- /container -->
+
+{% endblock %}
