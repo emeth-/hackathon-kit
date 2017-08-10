@@ -9,6 +9,8 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('api.urls')),
+    url(r'^voice/', include('voice.urls')),
+    url(r'^sms/', include('sms.urls')),
 ]
 
 

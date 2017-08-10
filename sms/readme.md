@@ -1,0 +1,4 @@
+- Create Twilio Account
+- Buy a number that has support for SMS and Voice ($1 a month)
+- Go to Phone Numbers -> Manage -> Click your phone number
+- Under Messaging -> Request URL, set it to http://YOURDOMAIN.com/sms/received as an HTTP POST
