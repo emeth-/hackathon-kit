@@ -4,7 +4,9 @@
   },
   "addons": [
     "papertrail",
-    "heroku-postgresql:hobby-dev"
+    "heroku-postgresql:hobby-dev",
+    "sendgrid:starter",
+    "mailgun:starter"
   ],
   "success_url": "/",
   "scripts": {
