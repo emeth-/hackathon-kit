@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^', include('api.urls')),
     url(r'^voice/', include('voice.urls')),
     url(r'^sms/', include('sms.urls')),
+    url(r'^email/', include('eemail.urls')),
 ]
 
 
