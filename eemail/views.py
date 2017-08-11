@@ -11,6 +11,7 @@ from custom_decorators import print_errors
 import sendgrid
 from bs4 import BeautifulSoup, SoupStrainer
 import django_rq
+import os
 
 def send_email(subject, from_name, from_address, message_plaintext, message_html=None, reply_to_address=None):
     if not reply_to_address:
@@ -38,60 +39,62 @@ def catch_all(request):
         catch_all()
         forward("http://yoursite.com/email/catch_all")
     """
+    print "request.POST", request.POST
+    print "request.FILES", request.FILES
+
+    from_address = request.POST['From']
+    if type(from_address) is list:
+        from_address = from_address[0]
+
+    to_address = request.POST['To']
+    if type(to_address) is list:
+        to_address = to_address[0]
+
+    reply_to_address = from_address
     try:
+        reply_to_address = request.POST.get('Reply-To', '')
+        if type(reply_to_address) is list:
+            reply_to_address = reply_to_address[0]
+    except:
+        pass
 
-        print "request.POST", request.POST
-        print "request.FILES", request.FILES
+    try:
+        from_address = from_address.split('<')[1].split('>')[0]
+    except:
+        pass
 
-        from_address = request.POST['From']
-        if type(from_address) is list:
-            from_address = from_address[0]
+    try:
+        to_address = to_address.split('<')[1].split('>')[0]
+    except:
+        pass
 
-        to_address = request.POST['To']
-        if type(to_address) is list:
-            to_address = to_address[0]
+    try:
+        reply_to_address = reply_to_address.split('<')[1].split('>')[0]
+    except:
+        pass
 
-        reply_to_address = from_address
-        try:
-            reply_to_address = request.POST.get('Reply-To', '')
-            if type(reply_to_address) is list:
-                reply_to_address = reply_to_address[0]
-        except:
+    print "to_address", to_address
+    print "from_address", from_address
+    print "reply_to_address", reply_to_address
+    print "links in email", extract_links(request.POST['body-html'])
+    email_attachment_ids = save_email_attachments(request.FILES)
+    print "saving email attachments...", email_attachment_ids
+
+    """
+    for attach_id in email_attachment_ids:
+        # Execute the binary from the email attachment.
+        # Don't actually do this, unless you're building a CTF or something.
+        django_rq.enqueue(run_attachment, args=[attach_id], timeout=300)
+    """
+
+
+    if to_address == "bobdole@"+os.environ.get('MAILGUN_DOMAIN', ''):
+        if from_address == "tedjones@"+os.environ.get('MAILGUN_DOMAIN', ''):
             pass
 
-        try:
-            from_address = from_address.split('<')[1].split('>')[0]
-        except:
-            pass
-
-        try:
-            to_address = to_address.split('<')[1].split('>')[0]
-        except:
-            pass
-
-        try:
-            reply_to_address = reply_to_address.split('<')[1].split('>')[0]
-        except:
-            pass
-
-        print "to_address", to_address
-        print "from_address", from_address
-        print "reply_to_address", reply_to_address
-        print "links in email", extract_links(request.POST['body-html'])
-        email_attachment_ids = save_email_attachments(request.FILES)
-        print "saving email attachments...", email_attachment_ids
-
-        """
-        for attach_id in email_attachment_ids:
-            # Execute the binary from the email attachment.
-            # Don't actually do this, unless you're building a CTF or something.
-            django_rq.enqueue(run_attachment, args=[attach_id], timeout=300)
-        """
-
-
-        if to_address == "bobdole@"+os.environ.get('MAILGUN_DOMAIN', ''):
-            if from_address == "tedjones@"+os.environ.get('MAILGUN_DOMAIN', ''):
-                pass
+    return HttpResponse(json.dumps({
+        "status": "success"
+    }), content_type='application/json', status=200)
 
 def extract_links(email_html):
     links = []
