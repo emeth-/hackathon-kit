@@ -39,8 +39,11 @@ def send_email(subject, from_address, to_address, message_plaintext, to_name=Non
 @print_errors
 def catch_all(request):
     """
+    In Mailgun configuration, set a route with the following parameters:
         catch_all()
         forward("http://yoursite.com/email/catch_all")
+
+    Once done, all emails sent to [anything]@[os.environ.get('MAILGUN_DOMAIN')].com will hit this endpoint.
     """
     print "request.POST", request.POST
     print "request.FILES", request.FILES
