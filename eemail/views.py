@@ -13,21 +13,24 @@ from bs4 import BeautifulSoup, SoupStrainer
 import django_rq
 import os
 
-def send_email(subject, from_name, from_address, message_plaintext, message_html=None, reply_to_address=None):
-    if not reply_to_address:
-        reply_to_address = from_address
-
+def send_email(subject, from_address, to_address, message_plaintext, to_name=None, from_name=None, message_html=None):
     if not message_html:
         message_html = message_plaintext
 
     sg = sendgrid.SendGridClient(os.environ.get('SENDGRID_USERNAME', ''), os.environ.get('SENDGRID_PASSWORD', ''))
 
     message = sendgrid.Mail()
-    message.add_to(reply_to_address)
+    to_full = to_address
+    if to_name:
+        to_full = to_name+" <"+to_address+">"
+    message.add_to(to_full)
     message.set_subject(subject)
     message.set_html(message_html)
     message.set_text(message_plaintext)
-    message.set_from(from_name+" <"+from_address+">")
+    from_full = from_address
+    if from_name:
+        from_full = from_name+" <"+from_address+">"
+    message.set_from(from_full)
     status, msg = sg.send(message)
     print "EMAIL SENT STATUS", status
     print "EMAIL SENT MSG", msg

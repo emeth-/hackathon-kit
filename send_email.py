@@ -12,6 +12,7 @@ from_name = "Frank Sinatra"
 from_address = "franksinatra@gmail.com"
 message_plaintext = "test plaintext\nNewline"
 message_html = "test<b>html</b><br>newline"
-reply_to_address = "robertdole@gmail.com"
-send_email(subject, from_name, from_address, message_plaintext, message_html, reply_to_address)
+to_address = "myemail@gmail.com"
+to_name = "Test Aroo"
+send_email(subject, from_address, to_address, message_plaintext, to_name, from_name, message_html)
 
