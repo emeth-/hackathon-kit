@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 import datetime
 import json
-from api.models import Fish, Person
+from eemail.models import EmailAttachment
 from django.db.models import Q
 from dateutil import parser
 from django.contrib.auth import logout
