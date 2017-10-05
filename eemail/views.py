@@ -82,7 +82,7 @@ def catch_all(request):
     print "to_address", to_address
     print "from_address", from_address
     print "reply_to_address", reply_to_address
-    print "links in email", extract_links(request.POST['body-html'])
+    print "links in email", extract_links(request.POST.get('body-html', ''))
     email_attachment_ids = save_email_attachments(request.FILES)
     print "saving email attachments...", email_attachment_ids
 
