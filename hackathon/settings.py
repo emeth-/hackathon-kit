@@ -72,6 +72,19 @@ DATABASES = {
     }
 }
 
+"""
+# Locally, run `createdb hackathonkit` first
+DATABASES = {
+    'default': {
+        'HOST':'localhost',
+        'PORT': '5432',
+        'NAME': 'hackathonkit',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'postgres',
+    }
+}
+"""
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
