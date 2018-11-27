@@ -119,6 +119,7 @@ TEMPLATE_LOADERS = (
 
 if os.environ.get('IS_HEROKU_SERVER', False): # $ heroku config:add IS_HEROKU_SERVER='1'
     import dj_database_url
+    # DATABASES['default'] = dj_database_url.parse('heroku_string_here_for_testing')
     DATABASES = {
         "default": dj_database_url.config()
     }
